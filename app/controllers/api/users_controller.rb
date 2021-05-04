@@ -19,7 +19,7 @@ module Api
     # GET /users/1 or /users/1.json
     def show
       user = User.find_by(id: params[:id])
-      format.json { render json: user, status: :ok }
+      render json: user, status: :ok
     end
 
     # POST /users or /users.json
@@ -28,7 +28,7 @@ module Api
 
       respond_to do |format|
         if user.save
-          format.json { render json: user, status: :ok }
+          render json: user, status: :ok
         else
           format.json { render json: user.errors, status: :unprocessable_entity }
         end
@@ -39,7 +39,7 @@ module Api
     def update
       respond_to do |format|
         if user.update(user_params)
-          format.json { render json: user, status: :ok }
+          render json: user, status: :ok
         else
           format.json { render json: user.errors, status: :unprocessable_entity }
         end
@@ -61,9 +61,9 @@ module Api
       users = User.all
       valid_users = []
       users.each do |user|
-        valid_users.push("#{user.firstName} #{user.lastName}")
+        valid_users.push("#{user.firstName} #{user.lastName}") if user.firstName.include?(input) || user.lastName.include?(input) || user.email.include?(input)
       end
-      format.json { render json: valid_users, status: :ok }
+      render json: valid_users, status: :ok
     end
 
     private

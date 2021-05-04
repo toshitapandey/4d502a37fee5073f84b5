@@ -7,13 +7,13 @@ Rails.application.routes.draw do
     get 'user' => 'users#show'
 
     # POST /api/user - adds a new user to the users table
-    post 'user' => 'users#update'
+    post 'user' => 'users#create'
 
     # PUT /api/user/:id - updates specific user in users table
     put 'user' => 'users#update'
 
     # DELETE /api/user/:id - removes the specific user from users table with the given id
-    delete 'user' => 'users#delete'
+    delete 'user' => 'users#destroy'
 
     # GET /api/typeahead/:input - depending on input, returns entry from users table. 
     # Searches with matches in strings in firstName, lastName, and email

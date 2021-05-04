@@ -5,7 +5,15 @@ module Api
     # GET /users or /users.json
     def index
       users = User.all
-      format.json { render json: users, status: :ok }
+      valid_array = []
+      users.each do |user|
+        valid_array.push({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
+        })
+      end
+      render json: valid_array, status: :ok
     end
 
     # GET /users/1 or /users/1.json

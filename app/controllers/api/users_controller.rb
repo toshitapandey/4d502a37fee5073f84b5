@@ -5,23 +5,24 @@ module Api
     # GET /users or /users.json
     def index
       users = User.all
+      format.json { render json: users, status: :ok }
     end
 
     # GET /users/1 or /users/1.json
     def show
       user = User.find_by(id: params[:id])
-      format.json { render :show, status: :created, location: user }
+      format.json { render json: user, status: :ok }
     end
 
     # POST /users or /users.json
     def create
-      @user = User.new(user_params)
+      user = User.new(user_params)
 
       respond_to do |format|
-        if @user.save
-          format.json { render :show, status: :created, location: @user }
+        if user.save
+          format.json { render json: user, status: :ok }
         else
-          format.json { render json: @user.errors, status: :unprocessable_entity }
+          format.json { render json: user.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -29,10 +30,10 @@ module Api
     # PATCH/PUT /users/1 or /users/1.json
     def update
       respond_to do |format|
-        if @user.update(user_params)
-          format.json { render :show, status: :ok, location: @user }
+        if user.update(user_params)
+          format.json { render json: user, status: :ok }
         else
-          format.json { render json: @user.errors, status: :unprocessable_entity }
+          format.json { render json: user.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -43,6 +44,18 @@ module Api
       respond_to do |format|
         format.json { head :no_content }
       end
+    end
+
+    # GET /api/typeahead/:input - depending on input, returns entry from users table. 
+    # Searches with matches in strings in firstName, lastName, and email
+    def typeahead
+      input = params[:input]
+      users = User.all
+      valid_users = []
+      users.each do |user|
+        valid_users.push("#{user.firstName} #{user.lastName}")
+      end
+      format.json { render json: valid_users, status: :ok }
     end
 
     private

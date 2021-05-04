@@ -14,5 +14,9 @@ Rails.application.routes.draw do
 
     # DELETE /api/user/:id - removes the specific user from users table with the given id
     delete 'user' => 'users#delete'
+
+    # GET /api/typeahead/:input - depending on input, returns entry from users table. 
+    # Searches with matches in strings in firstName, lastName, and email
+    get 'typeahead' => 'users#search'
   end
 end
